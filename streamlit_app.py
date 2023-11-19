@@ -18,7 +18,7 @@ my_fruit_list = pd.read_csv("https://uni-lab-files.s3.us-west-2.amazonaws.com/da
 
 
 # Fruit list here
-st.multiselect("Pick some fruits:", list(my_fruit_list.index))
+st.multiselect("Pick some fruits:", list(my_fruit_list.index), ['Avocado', 'Strawberries'])
 
 # Display the thable on the page
 st.dataframe(my_fruit_list)
