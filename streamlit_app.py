@@ -6,12 +6,12 @@ st.title("New Healthy Diner")
 
 st.header("Breakfast Favorites")
 
-st.text("🥣 Omega 3 & Blueberry Oatmea"')
-st.text("🥗 Kale, Spinach & Rocket Smoothi"')
-st.text("🐔 Hard-Boiled Free-Range Eg"')
+st.text("🥣 Omega 3 & Blueberry Oatmea")
+st.text("🥗 Kale, Spinach & Rocket Smoothi")
+st.text("🐔 Hard-Boiled Free-Range Eg")
 st.text("🥑🍞 Avocado Toa")
 
-st.header("🍌🥭 Build Your Own Fruit Smoothie "🍇')
+st.header("🍌🥭 Build Your Own Fruit Smoothie 🍇")
 
 my_fruit_list = pd.read_csv(
     "https://uni-lab-files.s3.us-west-2.amazonaws.com/dabw/fruit_macros.txt"
