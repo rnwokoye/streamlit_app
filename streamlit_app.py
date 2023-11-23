@@ -83,4 +83,5 @@ user_input = "jackfruit"
 my_cur.execute("SELECT CURRENT_USER(), CURRENT_ACCOUNT(), CURRENT_REGION()")
 my_new_data_row = my_cur.fetchone()
 st.text(user_input)
+st.text("The new data is:", my_new_data_row)
 # my_cur.execute(f'INSERT INTO fruit_load_list VALUES ("jackfruit")')
