@@ -80,4 +80,7 @@ st.dataframe(my_data_rows)
 # # my_cur.execute(f'"INSERT INTO fruit_load_list VALUES ({user_fruit_input})"')
 
 user_input = "jackfruit"
-my_cur.execute(f'INSERT INTO fruit_load_list VALUES ("jackfruit")')
+my_cur.execute("SELECT CURRENT_USER(), CURRENT_ACCOUNT(), CURRENT_REGION()")
+my_new_data_row = my_cur.fetchone()
+st.text(user_input)
+# my_cur.execute(f'INSERT INTO fruit_load_list VALUES ("jackfruit")')
