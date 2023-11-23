@@ -69,17 +69,10 @@ st.header("The fruit load list contains:")
 st.dataframe(my_data_rows)
 
 
-# New Section For Users to Add to Fruit Load List
-# st.header("User's Fruit Advice!")
+# New Section To Allow Users to Add to Fruit Load List
+st.header("What fruit would you like to add?")
 
-# user_fruit_input = st.text_input("What fruit would you like Add?", "jackfruit")
-# st.write("The user entered", user_fruit_input)
-
-# # test
-# my_cur.execute(f'"INSERT INTO fruit_load_list VALUES ({user_fruit_input})"')
-# # my_cur.execute(f'"INSERT INTO fruit_load_list VALUES ({user_fruit_input})"')
-
-user_input = "jackfruit"
-st.text(f"User input is, '{user_input}' fruit")
-# my_cur.execute(f'INSERT INTO fruit_load_list VALUES ("jackfruit")')
-my_cur.execute(f"INSERT INTO fruit_load_list VALUES ('{user_input}')")
+user_fruit_input = st.text_input("What fruit would you like Add?", "jackfruit")
+st.write(f"The user entered, {user_fruit_input}")
+my_cur.execute(f"INSERT INTO fruit_load_list VALUES ('{user_fruit_input}')")
+st.text(f"Thanks for adding {user_fruit_input}")
