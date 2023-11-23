@@ -60,7 +60,6 @@ st.dataframe(user_fruitchoice)
 
 
 # Test our new snowflake.connector
-
 my_cnx = snowflake.connector.connect(**st.secrets["snowflake"])
 my_cur = my_cnx.cursor()
 # my_cur.execute("SELECT CURRENT_USER(), CURRENT_ACCOUNT(), CURRENT_REGION()")
@@ -68,3 +67,17 @@ my_cur.execute("SELECT * FROM fruit_load_list")
 my_data_rows = my_cur.fetchall()
 st.header("The fruit load list contains:")
 st.dataframe(my_data_rows)
+
+
+# New Section For Users to Add to Fruit Load List
+# st.header("User's Fruit Advice!")
+
+# user_fruit_input = st.text_input("What fruit would you like Add?", "jackfruit")
+# st.write("The user entered", user_fruit_input)
+
+# # test
+# my_cur.execute(f'"INSERT INTO fruit_load_list VALUES ({user_fruit_input})"')
+# # my_cur.execute(f'"INSERT INTO fruit_load_list VALUES ({user_fruit_input})"')
+
+user_input = "jackfruit"
+my_cur.execute(f'"INSERT INTO fruit_load_list VALUES ({user_input})"')
