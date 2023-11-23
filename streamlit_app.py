@@ -82,4 +82,4 @@ st.dataframe(my_data_rows)
 user_input = "jackfruit"
 st.text(f"User input is, '{user_input}' fruit")
 # my_cur.execute(f'INSERT INTO fruit_load_list VALUES ("jackfruit")')
-my_cur.execute(f"INSERT INTO TABLE VALUES ('{user_input}')")
+my_cur.execute(f"INSERT INTO fruit_load_list VALUES ('{user_input}')")
