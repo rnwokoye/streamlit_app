@@ -80,4 +80,4 @@ st.dataframe(my_data_rows)
 # # my_cur.execute(f'"INSERT INTO fruit_load_list VALUES ({user_fruit_input})"')
 
 user_input = "jackfruit"
-my_cur.execute(f'INSERT INTO fruit_load_list VALUES ("{user_input}")')
+my_cur.execute(f'INSERT INTO fruit_load_list VALUES ("jackfruit")')
