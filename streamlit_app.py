@@ -70,19 +70,48 @@ except URLError as e:
     st.error()
 
 
-# st.stop()
+# # Test our new snowflake.connector
+# my_cnx = snowflake.connector.connect(**st.secrets["snowflake"])
+# my_cur = my_cnx.cursor()
+# my_cur.execute("SELECT * FROM fruit_load_list")
+# my_data_rows = my_cur.fetchall()
+# st.header("The fruit load list contains:")
+# st.dataframe(my_data_rows)
 
-# Test our new snowflake.connector
-my_cnx = snowflake.connector.connect(**st.secrets["snowflake"])
-my_cur = my_cnx.cursor()
-my_cur.execute("SELECT * FROM fruit_load_list")
-my_data_rows = my_cur.fetchall()
-
+# Move the fruitLoadListQuery and Load into a button
 st.header("The fruit load list contains:")
-st.dataframe(my_data_rows)
 
 
-# New Section To Allow Users to Add to Fruit Load List
-user_fruit_input = st.text_input("What fruit would you like Add?", "Kiwi")
-# my_cur.execute(f"INSERT INTO fruit_load_list VALUES ('{user_fruit_input}')")
-st.text(f"Thanks for adding {user_fruit_input}")
+# Snowflake related functions
+def get_fruit_load_list():
+    with my_cnx.cursor() as my_cur:
+        my_cur.execute("SELECT * FROM fruit_load_list")
+        return my_cur.fetchall()
+
+
+# Add a button to load the fruit:
+if st.button("Get Fruit Load List"):
+    my_cnx = snowflake.connector.connect(**st.secrets["snowflake"])
+    my_data_rows = get_fruit_load_list()
+    st.dataframe(my_data_rows)
+
+
+# Now to use our function and button to add fruit name submissions to our table
+# Allow User to Add Fruits
+def insert_row_snowflake(new_fruit):
+    with my_cnx.cursor() as my_cur:
+        my_cur.execute(f"INSERT INTO fruit_load_list VALUES ('{new_fruit}')")
+        return "Thanks for adding " + new_fruit
+
+
+add_my_fruit = st.text_input("What fruit would you like to add?")
+if st.button("Add a Fruit to the list"):
+    my_cnx = snowflake.connector.connect(**st.secrets["snowflake"])
+    fruit_added = insert_row_snowflake(add_my_fruit)
+    st.text(fruit_added)
+
+
+# # New Section To Allow Users to Add to Fruit Load List
+# user_fruit_input = st.text_input("What fruit would you like Add?", "Kiwi")
+# # my_cur.execute(f"INSERT INTO fruit_load_list VALUES ('{user_fruit_input}')")
+# st.text(f"Thanks for adding {user_fruit_input}")
