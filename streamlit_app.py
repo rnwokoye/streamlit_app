@@ -65,15 +65,12 @@ my_cur = my_cnx.cursor()
 # my_cur.execute("SELECT CURRENT_USER(), CURRENT_ACCOUNT(), CURRENT_REGION()")
 my_cur.execute("SELECT * FROM fruit_load_list")
 my_data_rows = my_cur.fetchall()
+
 st.header("The fruit load list contains:")
 st.dataframe(my_data_rows)
 
 
 # New Section To Allow Users to Add to Fruit Load List
-# st.header("What fruit would you like to add?")
-
 user_fruit_input = st.text_input("What fruit would you like Add?", "Kiwi")
-if user_fruit_input:
-    st.write(f"The user entered, {user_fruit_input}")
-    my_cur.execute(f"INSERT INTO fruit_load_list VALUES ('{user_fruit_input}')")
-    st.text(f"Thanks for adding {user_fruit_input}")
+# my_cur.execute(f"INSERT INTO fruit_load_list VALUES ('{user_fruit_input}')")
+st.text(f"Thanks for adding {user_fruit_input}")
