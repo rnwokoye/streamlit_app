@@ -48,6 +48,15 @@ st.dataframe(fruits_to_show)
 # st.dataframe(fruityvice_normalized)
 
 
+# New Function
+def get_fruityvice_data(this_fruit_chice):
+    fruityvice_response = requests.get(
+        "https://fruityvice.com/api/fruit/" + fruit_choice
+    )
+    user_fruitchoice = pd.json_normalize(fruityvice_response.json())
+    return user_fruitchoice
+
+
 # New Section to display fruitvice API response
 st.header("Fruitvice Fruit Advice!")
 try:
@@ -55,16 +64,13 @@ try:
     if not fruit_choice:
         st.error("Please select a fruit to get information.")
     else:
-        fruityvice_response = requests.get(
-            "https://fruityvice.com/api/fruit/" + fruit_choice
-        )
-        user_fruitchoice = pd.json_normalize(fruityvice_response.json())
-        st.dataframe(user_fruitchoice)
+        user_choice = get_fruityvice_data(fruit_choice)
+        st.dataframe(user_choice)
 except URLError as e:
     st.error()
 
 
-st.stop()
+# st.stop()
 
 # Test our new snowflake.connector
 my_cnx = snowflake.connector.connect(**st.secrets["snowflake"])
