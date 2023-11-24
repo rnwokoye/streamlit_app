@@ -32,7 +32,6 @@ fruits_selected = st.multiselect(
 fruits_to_show = my_fruit_list.loc[fruits_selected]
 
 # Display the table on the page
-# st.dataframe(my_fruit_list)
 st.dataframe(fruits_to_show)
 
 # # New section to display fruity vice api response
@@ -70,32 +69,29 @@ except URLError as e:
     st.error()
 
 
-# # Test our new snowflake.connector
-# my_cnx = snowflake.connector.connect(**st.secrets["snowflake"])
-# my_cur = my_cnx.cursor()
-# my_cur.execute("SELECT * FROM fruit_load_list")
-# my_data_rows = my_cur.fetchall()
-# st.header("The fruit load list contains:")
-# st.dataframe(my_data_rows)
-
 # Move the fruitLoadListQuery and Load into a button
 st.header("View Our Fruit List - Add Your Favorites!")
+
+# colnames = [desc[0] for desc in cur.description]
 
 
 # Snowflake related functions
 def get_fruit_load_list():
     with my_cnx.cursor() as my_cur:
         my_cur.execute("SELECT * FROM fruit_load_list")
+        data = my_cur.fetchall()
+        cols = [desc[0] for desc in my_cur.description]
         my_cnx.close()
-        return my_cur.fetchall()
+        return (data, cols)
 
 
 # Add a button to load the fruit:
 if st.button("Get Fruit Load List"):
     my_cnx = snowflake.connector.connect(**st.secrets["snowflake"])
-    my_data_rows = get_fruit_load_list()
+    my_data_rows, my_cols = get_fruit_load_list()
     my_cnx.close()
-    st.dataframe(my_data_rows)
+    all_fruits = pd.DataFrame(my_data_rows, columns=my_cols)
+    st.dataframe(all_fruits)
 
 
 # Now to use our function and button to add fruit name submissions to our table
@@ -113,9 +109,3 @@ if st.button("Add a Fruit to the list"):
     fruit_added = insert_row_snowflake(add_my_fruit)
     my_cnx.close()
     st.text(fruit_added)
-
-
-# # New Section To Allow Users to Add to Fruit Load List
-# user_fruit_input = st.text_input("What fruit would you like Add?", "Kiwi")
-# # my_cur.execute(f"INSERT INTO fruit_load_list VALUES ('{user_fruit_input}')")
-# st.text(f"Thanks for adding {user_fruit_input}")
