@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 import requests
 import snowflake.connector
+from urllib.error import URLError
 
 st.title("New Healthy Diner")
 
@@ -34,35 +35,40 @@ fruits_to_show = my_fruit_list.loc[fruits_selected]
 # st.dataframe(my_fruit_list)
 st.dataframe(fruits_to_show)
 
-# New section to display fruity vice api response
-st.header("Fruityvice Fruit Advice!")
+# # New section to display fruity vice api response
+# st.header("Fruityvice Fruit Advice!")
 
-# request the data
-fruityvice_response = requests.get("https://fruityvice.com/api/fruit/" + "Kiwi")
+# # request the data
+# fruityvice_response = requests.get("https://fruityvice.com/api/fruit/" + "Kiwi")
 
-# normalize the json output
-fruityvice_normalized = pd.json_normalize(fruityvice_response.json())
+# # normalize the json output
+# fruityvice_normalized = pd.json_normalize(fruityvice_response.json())
 
-# Put the data in a DF and let streamlit display it
-st.dataframe(fruityvice_normalized)
+# # Put the data in a DF and let streamlit display it
+# st.dataframe(fruityvice_normalized)
 
 
 # New Section to display fruitvice API response
 st.header("Fruitvice Fruit Advice!")
-fruit_choice = st.text_input("What fruit would you like information about?", "Kiwi")
-st.write("The user entered", fruit_choice)
+try:
+    fruit_choice = st.text_input("What fruit would you like information about?")
+    if not fruit_choice:
+        st.error("Please select a fruit to get information.")
+    else:
+        fruityvice_response = requests.get(
+            "https://fruityvice.com/api/fruit/" + fruit_choice
+        )
+        user_fruitchoice = pd.json_normalize(fruityvice_response.json())
+        st.dataframe(user_fruitchoice)
+except URLError as e:
+    st.error()
 
-fruityvice_response = requests.get("https://fruityvice.com/api/fruit/" + fruit_choice)
 
-# display user's choice in DF
-user_fruitchoice = pd.json_normalize(fruityvice_response.json())
-st.dataframe(user_fruitchoice)
-
+st.stop()
 
 # Test our new snowflake.connector
 my_cnx = snowflake.connector.connect(**st.secrets["snowflake"])
 my_cur = my_cnx.cursor()
-# my_cur.execute("SELECT CURRENT_USER(), CURRENT_ACCOUNT(), CURRENT_REGION()")
 my_cur.execute("SELECT * FROM fruit_load_list")
 my_data_rows = my_cur.fetchall()
 
