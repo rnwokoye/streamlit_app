@@ -95,7 +95,7 @@ if st.button("Get Fruit Load List"):
     my_cnx = snowflake.connector.connect(**st.secrets["snowflake"])
     my_data_rows = get_fruit_load_list()
     my_cnx.close()
-    st.dataframe(my_data_rows, columns="Fruit_Name")
+    st.dataframe(my_data_rows)
 
 
 # Now to use our function and button to add fruit name submissions to our table
